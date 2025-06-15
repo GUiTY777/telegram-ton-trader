@@ -5,5 +5,5 @@
   "termsOfUseUrl": "https://example.com/terms",
   "privacyPolicyUrl": "https://example.com/privacy",
   "redirectUrl": "https://web-production-05a2e.up.railway.app",
-  "manifestVersion": "0.0.1"
+  "manifestVersion": "0.0.2"
 }
