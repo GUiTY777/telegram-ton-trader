@@ -1,5 +1,5 @@
 {
-  "_comment": "force GitHub to include docs folder",
+  "_comment": "force GitHub to include public folder",
   "url": "https://web-production-05a2e.up.railway.app",
   "name": "TON Gift Trader",
   "iconUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Toncoin.png/240px-Toncoin.png",
