@@ -1,5 +1,6 @@
 {
   "_comment": "force change to trigger git",
+  "_comment": "force github detect public folder",
 
   "url": "http://localhost:5000",
   "name": "TON Gift Trader",
