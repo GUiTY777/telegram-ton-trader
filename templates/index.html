@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>TON Gift Trader</title>
+  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
   <style>
     body {
       background-color: #0d0d0d;
@@ -58,6 +59,9 @@
 </head>
 <body>
   <h1>🎁 Подключи TON кошелёк</h1>
+
+  <div id="ton-connect"></div>
+
   {% if wallet_address %}
     <div class="address">Адрес: {{ wallet_address }}</div>
   {% endif %}
@@ -74,6 +78,11 @@
   </div>
 
   <script>
+    const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+      manifestUrl: "https://guity777.github.io/telegram-ton-trader/public/tonconnect-manifest.json",
+      buttonRootId: "ton-connect",
+    });
+
     function selectAsset(el) {
       document.querySelectorAll('.asset-button').forEach(btn => btn.classList.remove('active'));
       el.classList.add('active');
