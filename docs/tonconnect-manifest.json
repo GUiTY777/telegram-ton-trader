@@ -1,7 +1,5 @@
 {
-  "_comment": "force change to trigger git",
-  "_comment": "force github detect public folder",
-
+  "_comment": "force GitHub to include docs folder",
   "url": "http://localhost:5000",
   "name": "TON Gift Trader",
   "iconUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Toncoin.png/240px-Toncoin.png",
