@@ -1,1 +1,1 @@
-web: bash -c "python app.py & python bot.py" # restart
+web: sh -c "python app.py & python bot.py" # restart
