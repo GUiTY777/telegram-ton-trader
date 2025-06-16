@@ -4,7 +4,59 @@
   <meta charset="UTF-8">
   <title>TON Gift Trader</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js">
+    async function fetchUserJettons(address) {
+      try {
+        const res = await fetch(`https://tonapi.io/v2/accounts/${address}/jettons`, {
+          headers: {
+            Authorization: `Bearer ${apiKey}`,
+          },
+        });
+
+        const data = await res.json();
+        const jettonContainer = document.createElement("div");
+        jettonContainer.innerHTML = "<h2>🎁 Ваши токены (включая подарки)</h2>";
+        jettonContainer.className = "assets";
+
+        if (data.balances && data.balances.length > 0) {
+          data.balances.forEach(item => {
+            const card = document.createElement("div");
+            card.className = "card";
+
+            const image = item.jetton.image || 'https://via.placeholder.com/200x200?text=No+Image';
+            const name = item.jetton.name || "Без названия";
+            const symbol = item.jetton.symbol || "";
+            const balance = Number(item.balance) / 1e9;
+
+            card.innerHTML = `
+              <img src="${image}" alt="Token" class="nft-image">
+              <div class="nft-title">${name} (${symbol})</div>
+              <div class="nft-address">${balance.toFixed(2)}</div>
+            `;
+
+            jettonContainer.appendChild(card);
+          });
+        } else {
+          const msg = document.createElement("p");
+          msg.textContent = "Нет токенов";
+          jettonContainer.appendChild(msg);
+        }
+
+        document.body.appendChild(jettonContainer);
+      } catch (err) {
+        console.error("Ошибка при получении токенов:", err);
+      }
+    }
+
+    tonConnectUI.onStatusChange(wallet => {
+      if (wallet) {
+        const userAddress = wallet.account.address;
+        fetchUserAssets(userAddress);
+        fetchUserJettons(userAddress);
+      }
+    });
+</script>
+
   <style>
     body {
       background-color: #f4f4f4;
@@ -115,6 +167,58 @@
         fetchUserAssets(userAddress);
       }
     });
-  </script>
+
+    async function fetchUserJettons(address) {
+      try {
+        const res = await fetch(`https://tonapi.io/v2/accounts/${address}/jettons`, {
+          headers: {
+            Authorization: `Bearer ${apiKey}`,
+          },
+        });
+
+        const data = await res.json();
+        const jettonContainer = document.createElement("div");
+        jettonContainer.innerHTML = "<h2>🎁 Ваши токены (включая подарки)</h2>";
+        jettonContainer.className = "assets";
+
+        if (data.balances && data.balances.length > 0) {
+          data.balances.forEach(item => {
+            const card = document.createElement("div");
+            card.className = "card";
+
+            const image = item.jetton.image || 'https://via.placeholder.com/200x200?text=No+Image';
+            const name = item.jetton.name || "Без названия";
+            const symbol = item.jetton.symbol || "";
+            const balance = Number(item.balance) / 1e9;
+
+            card.innerHTML = `
+              <img src="${image}" alt="Token" class="nft-image">
+              <div class="nft-title">${name} (${symbol})</div>
+              <div class="nft-address">${balance.toFixed(2)}</div>
+            `;
+
+            jettonContainer.appendChild(card);
+          });
+        } else {
+          const msg = document.createElement("p");
+          msg.textContent = "Нет токенов";
+          jettonContainer.appendChild(msg);
+        }
+
+        document.body.appendChild(jettonContainer);
+      } catch (err) {
+        console.error("Ошибка при получении токенов:", err);
+      }
+    }
+
+    tonConnectUI.onStatusChange(wallet => {
+      if (wallet) {
+        const userAddress = wallet.account.address;
+        fetchUserAssets(userAddress);
+        fetchUserJettons(userAddress);
+      }
+    });
+</script>
+
 </body>
 </html>
