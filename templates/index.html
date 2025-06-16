@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
   <title>TON Gift Trader</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
   <style>
     body {
@@ -18,44 +18,40 @@
       color: #222;
     }
 
-    #assets {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    .assets {
+      display: flex;
+      flex-wrap: wrap;
       gap: 20px;
+      justify-content: center;
       margin-top: 20px;
-      padding: 0 20px;
     }
 
-    .nft-card {
-      background-color: white;
+    .card {
+      background-color: #fff;
+      color: #000;
       border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-      padding: 15px;
-      text-align: left;
-      transition: transform 0.2s;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 12px;
+      width: 200px;
+      text-align: center;
     }
 
-    .nft-card:hover {
-      transform: translateY(-4px);
-    }
-
-    .nft-card img {
+    .nft-image {
       width: 100%;
       height: auto;
-      border-radius: 8px;
-      margin-bottom: 10px;
+      border-radius: 10px;
     }
 
-    .nft-name {
+    .nft-title {
       font-weight: bold;
+      margin-top: 10px;
       font-size: 16px;
-      margin-bottom: 5px;
     }
 
     .nft-address {
       font-size: 12px;
       color: #666;
-      word-break: break-all;
+      margin-top: 6px;
     }
   </style>
 </head>
@@ -64,7 +60,7 @@
   <div id="ton-connect"></div>
 
   <h2>📦 Твои активы:</h2>
-  <div id="assets">Подключите кошелёк для отображения активов...</div>
+  <div class="assets" id="assets">Подключите кошелёк для отображения активов...</div>
 
   <script>
     const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
@@ -72,7 +68,7 @@
       buttonRootId: "ton-connect"
     });
 
-    const apiKey = "AGD7ZA3LOFUOJ6YAAAAJRV5DMBGYW6YP3BZJCNENVT6MJCA63K4PGA4KW5BM7DD5YVKBY7Q"; // Вставь свой tonapi.io ключ
+    const apiKey = "ВСТАВЬ_СЮДА_СВОЙ_API_КЛЮЧ"; // замените на свой ключ
 
     async function fetchUserAssets(address) {
       try {
@@ -89,12 +85,16 @@
         if (data.nft_items && data.nft_items.length > 0) {
           data.nft_items.forEach(nft => {
             const card = document.createElement("div");
-            card.className = "nft-card";
+            card.className = "card";
+
+            const preview = nft.preview?.url || 'https://via.placeholder.com/200x200?text=No+Image';
+            const name = nft.metadata?.name || "Без названия";
+            const addressShort = `${nft.address.slice(0, 4)}...${nft.address.slice(-4)}`;
 
             card.innerHTML = `
-              <img src="${nft.preview?.url || ''}" alt="NFT Preview">
-              <div class="nft-name">${nft.metadata?.name || "Без названия"}</div>
-              <div class="nft-address">${nft.address}</div>
+              <img src="${preview}" alt="NFT Preview" class="nft-image">
+              <div class="nft-title">${name}</div>
+              <div class="nft-address" title="${nft.address}">${addressShort}</div>
             `;
 
             assetsContainer.appendChild(card);
