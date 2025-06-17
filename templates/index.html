@@ -58,11 +58,16 @@
 
 window.Telegram.WebApp.ready();
 
-function showTelegramProfile() {
-  const tgUser = window.Telegram.WebApp.initDataUnsafe?.user;
-  if (!tgUser) return;
 
+function showTelegramProfile() {
+  const tgUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
   const profile = document.getElementById("profile-content");
+
+  if (!tgUser) {
+    profile.innerHTML = "<p>❌ Профиль не получен. Открой Mini App через Telegram.</p>";
+    return;
+  }
+
   const name = tgUser.first_name + (tgUser.last_name ? ' ' + tgUser.last_name : '');
   const username = tgUser.username ? `@${tgUser.username}` : '';
   const userId = tgUser.id;
@@ -75,6 +80,7 @@ function showTelegramProfile() {
     </div>
   `;
 }
+
 
 showTelegramProfile();
 
@@ -261,11 +267,16 @@ document.body.appendChild(debugOutput);
 
 window.Telegram.WebApp.ready();
 
-function showTelegramProfile() {
-  const tgUser = window.Telegram.WebApp.initDataUnsafe?.user;
-  if (!tgUser) return;
 
+function showTelegramProfile() {
+  const tgUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
   const profile = document.getElementById("profile-content");
+
+  if (!tgUser) {
+    profile.innerHTML = "<p>❌ Профиль не получен. Открой Mini App через Telegram.</p>";
+    return;
+  }
+
   const name = tgUser.first_name + (tgUser.last_name ? ' ' + tgUser.last_name : '');
   const username = tgUser.username ? `@${tgUser.username}` : '';
   const userId = tgUser.id;
@@ -278,6 +289,7 @@ function showTelegramProfile() {
     </div>
   `;
 }
+
 
 showTelegramProfile();
 
