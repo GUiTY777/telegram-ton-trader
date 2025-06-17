@@ -296,25 +296,50 @@ document.body.appendChild(debugOutput);</script>
     ? "✅ Telegram WebApp подключен"
     : "❌ Telegram WebApp НЕ подключен";
   document.body.insertBefore(statusDiv, document.body.firstChild);</script>
-<script>const btn = document.getElementById("tg-debug-btn");
-  if (btn) {
-    btn.addEventListener("click", () => {
-      try {
-        const data = window.Telegram?.WebApp?.initDataUnsafe;
-        if (data) {
-          window.Telegram.WebApp.showAlert(JSON.stringify(data, null, 2));
-        } else {
-          alert("initDataUnsafe не найден");
-        }
-      } catch (err) {
-        alert("Telegram WebApp не работает: " + err);
-      }
-    });
-  }</script>
+
 <script type="module">
 import { retrieveLaunchParams } from "https://cdn.jsdelivr.net/npm/@telegram-apps/sdk@1.0.2/+esm";
 const { initData, initDataRaw } = retrieveLaunchParams();
 console.log("initData (parsed):", initData);
 console.log("initDataRaw:", initDataRaw);
-</script><script src="https://cdn.jsdelivr.net/npm/eruda"></script><script>eruda.init();</script></body>
+</script><script src="https://cdn.jsdelivr.net/npm/eruda"></script><script>eruda.init();</script><script>
+let tgUser = null;
+
+if (typeof Telegram !== "undefined" && Telegram.WebApp) {
+  Telegram.WebApp.ready?.();
+
+  if (Telegram.WebApp.initDataUnsafe?.user) {
+    tgUser = Telegram.WebApp.initDataUnsafe.user;
+  }
+} else {
+  const urlParams = new URLSearchParams(window.location.search);
+  const tgDataEncoded = urlParams.get("tgWebAppData");
+  if (tgDataEncoded) {
+    try {
+      const decoded = decodeURIComponent(tgDataEncoded);
+      const parsed = Object.fromEntries(new URLSearchParams(decoded));
+      if (parsed.user) {
+        tgUser = JSON.parse(parsed.user);
+      }
+    } catch (err) {
+      console.warn("Не удалось расшифровать tgWebAppData:", err);
+    }
+  }
+}
+
+const profile = document.getElementById("profile-content");
+if (tgUser) {
+  const name = tgUser.first_name + (tgUser.last_name ? ' ' + tgUser.last_name : '');
+  const username = tgUser.username ? `@${tgUser.username}` : '';
+  const userId = tgUser.id;
+  profile.innerHTML = `
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+      <div><strong>${name}</strong></div>
+      <div style="color:#666;">${username}</div>
+      <div style="font-size:12px;color:#999;">ID: ${userId}</div>
+    `;
+} else {
+  profile.innerHTML = "<p>❌ Профиль не получен. Открой Mini App через Telegram.</p>";
+}
+</script></body>
 </html>
