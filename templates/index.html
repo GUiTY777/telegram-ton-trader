@@ -1,39 +1,33 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>TON Gift Trader</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js">
-    async function fetchUserJettons(address) {
+<meta charset="utf-8"/>
+<title>TON Gift Trader</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js">async function fetchUserJettons(address) {
       try {
         const res = await fetch(`https://tonapi.io/v2/accounts/${address}/jettons`, {
           headers: {
             Authorization: `Bearer ${apiKey}`,
           },
         });
-
         const data = await res.json();
         const jettonContainer = document.createElement("div");
         jettonContainer.innerHTML = "<h2>🎁 Ваши токены (включая подарки)</h2>";
         jettonContainer.className = "assets";
-
         if (data.balances && data.balances.length > 0) {
           data.balances.forEach(item => {
             const card = document.createElement("div");
             card.className = "card";
-
-            const image = item.jetton.image || 'https://via.placeholder.com/200x200?text=No+Image';
+            const image = item.jetton.image || 'https://dummyimage.com/200x200/cccccc/000000&text=No+Image';
             const name = item.jetton.name || "Без названия";
             const symbol = item.jetton.symbol || "";
             const balance = Number(item.balance) / 1e9;
-
             card.innerHTML = `
               <img src="${image}" alt="Token" class="nft-image">
               <div class="nft-title">${name} (${symbol})</div>
               <div class="nft-address">${balance.toFixed(2)}</div>
             `;
-
             jettonContainer.appendChild(card);
           });
         } else {
@@ -41,13 +35,11 @@
           msg.textContent = "Нет токенов";
           jettonContainer.appendChild(msg);
         }
-
         document.body.appendChild(jettonContainer);
       } catch (err) {
         console.error("Ошибка при получении токенов:", err);
       }
     }
-
     tonConnectUI.onStatusChange(wallet => {
       if (wallet) {
         const userAddress = wallet.account.address;
@@ -55,14 +47,10 @@
         fetchUserJettons(userAddress);
       }
     });
-
-window.Telegram.WebApp.ready();
-
+window.Telegram?.WebApp?.ready?.();
 
 function showTelegramProfile() {
-
 let tgUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
-
 // Попробуем получить tgWebAppData из URL, если WebApp не определён
 if (!tgUser) {
   const urlParams = new URLSearchParams(window.location.search);
@@ -79,18 +67,14 @@ if (!tgUser) {
     }
   }
 }
-
   const profile = document.getElementById("profile-content");
-
   if (!tgUser) {
     profile.innerHTML = "<p>❌ Профиль не получен. Открой Mini App через Telegram.</p>";
     return;
   }
-
   const name = tgUser.first_name + (tgUser.last_name ? ' ' + tgUser.last_name : '');
   const username = tgUser.username ? `@${tgUser.username}` : '';
   const userId = tgUser.id;
-
   profile.innerHTML = `
     <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
       <div><strong>${name}</strong></div>
@@ -100,9 +84,7 @@ if (!tgUser) {
   `;
 }
 
-
 showTelegramProfile();
-
 
 const debugOutput = document.createElement("pre");
 debugOutput.style.textAlign = "left";
@@ -110,23 +92,17 @@ debugOutput.style.fontSize = "10px";
 debugOutput.style.padding = "10px";
 debugOutput.style.background = "#eee";
 debugOutput.textContent = "initDataUnsafe:\n" + JSON.stringify(window.Telegram?.WebApp?.initDataUnsafe, null, 2);
-document.body.appendChild(debugOutput);
-
-</script>
-
-  <style>
-    body {
+document.body.appendChild(debugOutput);</script>
+<style>body {
       background-color: #f4f4f4;
       font-family: 'Segoe UI', sans-serif;
       text-align: center;
       padding: 30px;
       color: #333;
     }
-
     h1, h2 {
       color: #222;
     }
-
     .assets {
       display: flex;
       flex-wrap: wrap;
@@ -134,7 +110,6 @@ document.body.appendChild(debugOutput);
       justify-content: center;
       margin-top: 20px;
     }
-
     .card {
       background-color: #fff;
       color: #000;
@@ -144,49 +119,38 @@ document.body.appendChild(debugOutput);
       width: 200px;
       text-align: center;
     }
-
     .nft-image {
       width: 100%;
       height: auto;
       border-radius: 10px;
     }
-
     .nft-title {
       font-weight: bold;
       margin-top: 10px;
       font-size: 16px;
     }
-
     .nft-address {
       font-size: 12px;
       color: #666;
       margin-top: 6px;
-    }
-  </style>
+    }</style>
 </head>
 <body>
-  <h1>🎁 Подключи TON кошелёк</h1>
-  <div id="ton-connect"></div>
-
-
+<h1>🎁 Подключи TON кошелёк</h1>
+<div id="ton-connect"></div>
 <div id="user-profile" style="margin-bottom: 20px;">
-  <h2>💬 Профиль</h2>
-  <div id="profile-content">
-    <p>Загрузка профиля...</p>
-  </div>
+<h2>💬 Профиль</h2>
+<div id="profile-content">
+<p>Загрузка профиля...</p>
 </div>
-
+</div>
 <h2>📦 Твои активы:</h2>
-  <div class="assets" id="assets">Подключите кошелёк для отображения активов...</div>
-
-  <script>
-    const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+<div class="assets" id="assets">Подключите кошелёк для отображения активов...</div>
+<script>const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
       manifestUrl: "https://guity777.github.io/telegram-ton-trader/tonconnect-manifest.json",
       buttonRootId: "ton-connect"
     });
-
     const apiKey = "AGD7ZA3LOFUOJ6YAAAAJRV5DMBGYW6YP3BZJCNENVT6MJCA63K4PGA4KW5BM7DD5YVKBY7Q"; // замените на свой ключ
-
     async function fetchUserAssets(address) {
       try {
         const res = await fetch(`https://tonapi.io/v2/accounts/${address}/nfts`, {
@@ -194,45 +158,37 @@ document.body.appendChild(debugOutput);
             Authorization: `Bearer ${apiKey}`,
           },
         });
-
         const data = await res.json();
         const assetsContainer = document.getElementById("assets");
         assetsContainer.innerHTML = "";
-
         if (data.nft_items && data.nft_items.length > 0) {
           data.nft_items.forEach(nft => {
             const card = document.createElement("div");
             card.className = "card";
-
-            const preview = nft.preview?.url || 'https://via.placeholder.com/200x200?text=No+Image';
+            const preview = nft.preview?.url || 'https://dummyimage.com/200x200/cccccc/000000&text=No+Image';
             const name = nft.metadata?.name || "Без названия";
             const addressShort = `${nft.address.slice(0, 4)}...${nft.address.slice(-4)}`;
-
             card.innerHTML = `
               <img src="${preview}" alt="NFT Preview" class="nft-image">
               <div class="nft-title">${name}</div>
               <div class="nft-address" title="${nft.address}">${addressShort}</div>
             `;
-
             assetsContainer.appendChild(card);
           });
         } else {
           assetsContainer.innerHTML = "<p>Нет активов</p>";
         }
-
       } catch (err) {
         console.error("Ошибка при получении активов:", err);
         document.getElementById("assets").innerHTML = "<p>Ошибка при получении активов</p>";
       }
     }
-
     tonConnectUI.onStatusChange(wallet => {
       if (wallet) {
         const userAddress = wallet.account.address;
         fetchUserAssets(userAddress);
       }
     });
-
     async function fetchUserJettons(address) {
       try {
         const res = await fetch(`https://tonapi.io/v2/accounts/${address}/jettons`, {
@@ -240,28 +196,23 @@ document.body.appendChild(debugOutput);
             Authorization: `Bearer ${apiKey}`,
           },
         });
-
         const data = await res.json();
         const jettonContainer = document.createElement("div");
         jettonContainer.innerHTML = "<h2>🎁 Ваши токены (включая подарки)</h2>";
         jettonContainer.className = "assets";
-
         if (data.balances && data.balances.length > 0) {
           data.balances.forEach(item => {
             const card = document.createElement("div");
             card.className = "card";
-
-            const image = item.jetton.image || 'https://via.placeholder.com/200x200?text=No+Image';
+            const image = item.jetton.image || 'https://dummyimage.com/200x200/cccccc/000000&text=No+Image';
             const name = item.jetton.name || "Без названия";
             const symbol = item.jetton.symbol || "";
             const balance = Number(item.balance) / 1e9;
-
             card.innerHTML = `
               <img src="${image}" alt="Token" class="nft-image">
               <div class="nft-title">${name} (${symbol})</div>
               <div class="nft-address">${balance.toFixed(2)}</div>
             `;
-
             jettonContainer.appendChild(card);
           });
         } else {
@@ -269,13 +220,11 @@ document.body.appendChild(debugOutput);
           msg.textContent = "Нет токенов";
           jettonContainer.appendChild(msg);
         }
-
         document.body.appendChild(jettonContainer);
       } catch (err) {
         console.error("Ошибка при получении токенов:", err);
       }
     }
-
     tonConnectUI.onStatusChange(wallet => {
       if (wallet) {
         const userAddress = wallet.account.address;
@@ -283,14 +232,10 @@ document.body.appendChild(debugOutput);
         fetchUserJettons(userAddress);
       }
     });
-
-window.Telegram.WebApp.ready();
-
+window.Telegram?.WebApp?.ready?.();
 
 function showTelegramProfile() {
-
 let tgUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
-
 // Попробуем получить tgWebAppData из URL, если WebApp не определён
 if (!tgUser) {
   const urlParams = new URLSearchParams(window.location.search);
@@ -307,18 +252,14 @@ if (!tgUser) {
     }
   }
 }
-
   const profile = document.getElementById("profile-content");
-
   if (!tgUser) {
     profile.innerHTML = "<p>❌ Профиль не получен. Открой Mini App через Telegram.</p>";
     return;
   }
-
   const name = tgUser.first_name + (tgUser.last_name ? ' ' + tgUser.last_name : '');
   const username = tgUser.username ? `@${tgUser.username}` : '';
   const userId = tgUser.id;
-
   profile.innerHTML = `
     <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
       <div><strong>${name}</strong></div>
@@ -328,9 +269,7 @@ if (!tgUser) {
   `;
 }
 
-
 showTelegramProfile();
-
 
 const debugOutput = document.createElement("pre");
 debugOutput.style.textAlign = "left";
@@ -338,21 +277,13 @@ debugOutput.style.fontSize = "10px";
 debugOutput.style.padding = "10px";
 debugOutput.style.background = "#eee";
 debugOutput.textContent = "initDataUnsafe:\n" + JSON.stringify(window.Telegram?.WebApp?.initDataUnsafe, null, 2);
-document.body.appendChild(debugOutput);
-
-</script>
-
-
-  <div style="margin-top: 20px;">
-    <button onclick="Telegram?.WebApp?.showAlert?.(JSON.stringify(window.Telegram?.WebApp?.initDataUnsafe, null, 2))"
-      style="padding: 10px 20px; font-size: 14px; background-color: #007bff; color: white; border: none; border-radius: 8px; cursor: pointer;">
+document.body.appendChild(debugOutput);</script>
+<div style="margin-top: 20px;">
+<button onclick="Telegram?.WebApp?.showAlert?.(JSON.stringify(window.Telegram?.WebApp?.initDataUnsafe, null, 2))" style="padding: 10px 20px; font-size: 14px; background-color: #007bff; color: white; border: none; border-radius: 8px; cursor: pointer;">
       📋 Показать Telegram debug
     </button>
-  </div>
-
-
-<script>
-  const statusDiv = document.createElement("div");
+</div>
+<script>const statusDiv = document.createElement("div");
   statusDiv.style.margin = "20px";
   statusDiv.style.fontSize = "18px";
   statusDiv.style.padding = "10px";
@@ -363,9 +294,21 @@ document.body.appendChild(debugOutput);
   statusDiv.innerText = window.Telegram?.WebApp
     ? "✅ Telegram WebApp подключен"
     : "❌ Telegram WebApp НЕ подключен";
-
-  document.body.insertBefore(statusDiv, document.body.firstChild);
-</script>
-
+  document.body.insertBefore(statusDiv, document.body.firstChild);</script>
+<script>const btn = document.getElementById("tg-debug-btn");
+  if (btn) {
+    btn.addEventListener("click", () => {
+      try {
+        const data = window.Telegram?.WebApp?.initDataUnsafe;
+        if (data) {
+          window.Telegram.WebApp.showAlert(JSON.stringify(data, null, 2));
+        } else {
+          alert("initDataUnsafe не найден");
+        }
+      } catch (err) {
+        alert("Telegram WebApp не работает: " + err);
+      }
+    });
+  }</script>
 </body>
 </html>
