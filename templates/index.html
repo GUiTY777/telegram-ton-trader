@@ -60,7 +60,26 @@ window.Telegram.WebApp.ready();
 
 
 function showTelegramProfile() {
-  const tgUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
+
+let tgUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
+
+// Попробуем получить tgWebAppData из URL, если WebApp не определён
+if (!tgUser) {
+  const urlParams = new URLSearchParams(window.location.search);
+  const tgDataEncoded = urlParams.get("tgWebAppData");
+  if (tgDataEncoded) {
+    try {
+      const decoded = atob(tgDataEncoded);
+      const parsed = JSON.parse(decoded);
+      if (parsed.user) {
+        tgUser = parsed.user;
+      }
+    } catch (err) {
+      console.warn("Не удалось расшифровать tgWebAppData:", err);
+    }
+  }
+}
+
   const profile = document.getElementById("profile-content");
 
   if (!tgUser) {
@@ -269,7 +288,26 @@ window.Telegram.WebApp.ready();
 
 
 function showTelegramProfile() {
-  const tgUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
+
+let tgUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
+
+// Попробуем получить tgWebAppData из URL, если WebApp не определён
+if (!tgUser) {
+  const urlParams = new URLSearchParams(window.location.search);
+  const tgDataEncoded = urlParams.get("tgWebAppData");
+  if (tgDataEncoded) {
+    try {
+      const decoded = atob(tgDataEncoded);
+      const parsed = JSON.parse(decoded);
+      if (parsed.user) {
+        tgUser = parsed.user;
+      }
+    } catch (err) {
+      console.warn("Не удалось расшифровать tgWebAppData:", err);
+    }
+  }
+}
+
   const profile = document.getElementById("profile-content");
 
   if (!tgUser) {
