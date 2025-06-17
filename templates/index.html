@@ -312,5 +312,22 @@ document.body.appendChild(debugOutput);
     </button>
   </div>
 
+
+<script>
+  const statusDiv = document.createElement("div");
+  statusDiv.style.margin = "20px";
+  statusDiv.style.fontSize = "18px";
+  statusDiv.style.padding = "10px";
+  statusDiv.style.borderRadius = "10px";
+  statusDiv.style.background = "#fff";
+  statusDiv.style.color = "#000";
+  statusDiv.style.boxShadow = "0 0 5px rgba(0,0,0,0.2)";
+  statusDiv.innerText = window.Telegram?.WebApp
+    ? "✅ Telegram WebApp подключен"
+    : "❌ Telegram WebApp НЕ подключен";
+
+  document.body.insertBefore(statusDiv, document.body.firstChild);
+</script>
+
 </body>
 </html>
