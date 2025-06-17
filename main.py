@@ -3,7 +3,7 @@ import threading
 from flask import Flask, render_template, send_from_directory
 from dotenv import load_dotenv
 import telebot
-from telebot.types import WebAppInfo, ReplyKeyboardMarkup, KeyboardButton
+from telebot.types import WebAppInfo, InlineKeyboardMarkup, InlineKeyboardButton
 
 # Загружаем токен
 load_dotenv()
@@ -30,8 +30,8 @@ bot = telebot.TeleBot(BOT_TOKEN)
 
 @bot.message_handler(commands=['start'])
 def start(message):
-    markup = ReplyKeyboardMarkup(resize_keyboard=True)
-    webapp_btn = KeyboardButton("Открыть торговлю", web_app=WebAppInfo(url=WEBAPP_URL))
+    markup = InlineKeyboardMarkup()
+    webapp_btn = InlineKeyboardButton("🚀 Открыть торговлю", web_app=WebAppInfo(url=WEBAPP_URL))
     markup.add(webapp_btn)
     bot.send_message(message.chat.id, "Нажми кнопку ниже, чтобы открыть Mini App 👇", reply_markup=markup)
 
