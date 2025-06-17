@@ -78,6 +78,15 @@ function showTelegramProfile() {
 
 showTelegramProfile();
 
+
+const debugOutput = document.createElement("pre");
+debugOutput.style.textAlign = "left";
+debugOutput.style.fontSize = "10px";
+debugOutput.style.padding = "10px";
+debugOutput.style.background = "#eee";
+debugOutput.textContent = "initDataUnsafe:\n" + JSON.stringify(window.Telegram?.WebApp?.initDataUnsafe, null, 2);
+document.body.appendChild(debugOutput);
+
 </script>
 
   <style>
@@ -271,6 +280,15 @@ function showTelegramProfile() {
 }
 
 showTelegramProfile();
+
+
+const debugOutput = document.createElement("pre");
+debugOutput.style.textAlign = "left";
+debugOutput.style.fontSize = "10px";
+debugOutput.style.padding = "10px";
+debugOutput.style.background = "#eee";
+debugOutput.textContent = "initDataUnsafe:\n" + JSON.stringify(window.Telegram?.WebApp?.initDataUnsafe, null, 2);
+document.body.appendChild(debugOutput);
 
 </script>
 
